@@ -11,5 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
+      - env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
           gh api -H "Accept: application/vnd.github+json" /repos/18F/handbook/hooks | jq ".[].id"
