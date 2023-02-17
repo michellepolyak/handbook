@@ -10,26 +10,28 @@ jobs:
     name: update jobs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@6
+      - uses: actions/github-script@v6
         env:
           WEBHOOK_URL: ${{ vars.PAGES_WEBHOOK }}
         with:
           script: |
-            const body = {
-              after: "${ core.sha }", // commit sha
-              commits: [{}], // it doesn't matter what's in here, it just must exist and have more than one thing in it
-              ref: "${ core.ref }",
-              repository: {
-                full_name: process.env.GITHUB_REPOSITORY,
-                pushed_at: Math.round(Date.now() / 1000),
-              },
-              sender: { login: "custom github action" },
-            };
+            setTimeout(async () => {
+              const body = {
+                after: "${ core.sha }", // commit sha
+                commits: [{}], // it doesn't matter what's in here, it just must exist and have more than one thing in it
+                ref: "${ core.ref }",
+                repository: {
+                  full_name: process.env.GITHUB_REPOSITORY,
+                  pushed_at: Math.round(Date.now() / 1000),
+                },
+                sender: { login: "custom github action" },
+              };
 
-            await fetch(process.env.WEBHOOK_URL, {
-              method: "post",
-              body: JSON.stringify(body),
-              headers: {
-                "Content-Type": "application/javascript"
-              }
-            });
+              await fetch(process.env.WEBHOOK_URL, {
+                method: "post",
+                body: JSON.stringify(body),
+                headers: {
+                  "Content-Type": "application/javascript"
+                }
+              });
+            }, 60_000);
