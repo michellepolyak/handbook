@@ -2,18 +2,33 @@ name: update jobs
 
 on:
   push:
-    branches:
-      - auto-jobs
-
-permissions: read-all
+    - auto-jobs
 
 jobs:
   update:
-    name: update
+    name: update jobs
     runs-on: ubuntu-latest
-
     steps:
-      - env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api -H "Accept: application/vnd.github+json" /repos/18F/handbook/hooks | jq ".[].id"
+      - uses: actions/github-script@6
+        env:
+          WEBHOOK_URL: ${{ vars.PAGES_WEBHOOK }}
+        with:
+          script: |
+            const body = {
+              after: "${ core.sha }", // commit sha
+              commits: [{}], // it doesn't matter what's in here, it just must exist and have more than one thing in it
+              ref: "${ core.ref }",
+              repository: {
+                full_name: process.env.GITHUB_REPOSITORY,
+                pushed_at: Math.round(Date.now() / 1000),
+              },
+              sender: { login: "custom github action" },
+            };
+
+            await fetch(process.env.WEBHOOK_URL, {
+              method: "post",
+              body: JSON.stringify(body),
+              headers: {
+                "Content-Type": "application/javascript"
+              }
+            });
