@@ -2,7 +2,8 @@ name: update jobs
 
 on:
   push:
-    - auto-jobs
+    branches:
+      - auto-jobs
 
 jobs:
   update:
