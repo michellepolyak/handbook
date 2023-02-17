@@ -1,0 +1,15 @@
+name: update jobs
+
+on:
+  push:
+    branches:
+      - auto-jobs
+
+jobs:
+  update:
+    name: update
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          gh api -H "Accept: application/vnd.github+json" /repos/18F/handbook/hooks | jq ".[].id"
