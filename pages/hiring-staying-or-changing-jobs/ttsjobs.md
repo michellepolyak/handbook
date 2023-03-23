@@ -68,7 +68,7 @@ and someone from USDS will reach out to get something set up.
 Be sure to stay informed of current job postings relevant to technology
 transformation in TTS and with other agencies by joining the
 {% slack_channel "tts-jobs" %} Slack channel. If you want to be notified about
-opportunities with other federal agencies please join the
+opportunities with other federal agencies please jodin the
 {% slack_channel "wg-govcareer" %} Slack channel. We encourage TTS staff to post
 external federal career opportunities on the {% slack_channel "wg-govcareer" %}
 Slack channel to help others be aware of permanent, career opportunities. TTS
